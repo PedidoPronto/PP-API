@@ -92,7 +92,7 @@ model Session {
 }
 
 model Order {
-  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id String @id @default(uuid()) @db.Uuid
 
   session    Session @relation(fields: [session_id], references: [id])
   session_id String  @db.Uuid
