@@ -30,7 +30,25 @@ model User {
   updated_at    DateTime @updatedAt
 }
 
+model Category {
+  id Int @id @default(autoincrement()) @db.Integer
+  name String @db.VarChar(100)
+  products Product[]
+  active Boolean @default(true)
+}
 
+model Product {
+  id String @id @default(uuid()) @db.Uuid
+  name String @db.VarChar(100)
+  description String? @db.Text
+  price Decimal @db.Decimal(10, 2)
+  image_url String? @db.Text
+  is_available Boolean @default(true)
+  created_at DateTime @default(now())
+  category Category @relation(fields: [category_id], references: [id])
+  category_id Int 
+  updated_at DateTime @updatedAt
+}
 
 
 
