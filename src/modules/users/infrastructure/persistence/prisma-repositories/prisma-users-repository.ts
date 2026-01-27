@@ -9,13 +9,12 @@ export class PrismaUsersRepository implements UserRepository {
   constructor(private prisma: PrismaClient) {}
 
   async save(user: User): Promise<void> {
-      const data = PrismaUserMapper.toPrisma(user);
+    const data = PrismaUserMapper.toPrisma(user);
 
-      await this.prisma.user.update({
-        where: { id: data.id },
-        data
-      })
-
+    await this.prisma.user.update({
+      where: { id: data.id },
+      data,
+    });
   }
 
   async findById(id: string): Promise<User | null> {
@@ -42,7 +41,7 @@ export class PrismaUsersRepository implements UserRepository {
     const data = PrismaUserMapper.toPrisma(user);
 
     await this.prisma.user.create({
-      data
+      data,
     });
   }
 }
