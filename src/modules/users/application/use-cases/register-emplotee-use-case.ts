@@ -12,7 +12,7 @@ export class RegisterEmployeeUseCase {
     private passwordGenerator: GeneratorPassword,
   ) {}
 
-  async execute(userData: RegisterEmployeeDto) {
+  async execute(userData: RegisterEmployeeDto): Promise<HttpResponse> {
     const userExists = await this.userRepository.findByEmail(userData.email);
 
     if (userExists) throw new ConflictException('Email already in use');
@@ -21,6 +21,16 @@ export class RegisterEmployeeUseCase {
 
     const hashedPassword = await this.hasher.hash(temporaryPassword);
 
-    
+    const newUser = this.userRepository.create({
+      ...userData,
+      password_hash: hashedPassword,
+      must_change_password: true,
+    })
+
+    return {
+      user: newUser,
+      message: 'Employee registered successfully',
+      
+    }
   }
 }
