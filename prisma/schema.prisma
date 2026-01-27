@@ -1,0 +1,129 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum PaymentMethod {
+  cash
+  credit_card
+  debit_card
+  pix
+  voucher
+}
+
+enum Role {
+  ADMIN
+  WAITER
+  CHEF
+}
+
+enum OrderStatus {
+  pending
+  in_preparation
+  served
+  cancelled
+}
+
+model User {
+  id                   String   @id @default(uuid()) @db.Uuid
+  name                 String   @db.VarChar(100)
+  email                String   @unique @db.VarChar(255)
+  password_hash        String   @db.VarChar(255)
+  role                 Role     @default(WAITER)
+  must_change_password Boolean  @default(true)
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  orders Order[]
+
+  @@map("users")
+}
+
+model Category {
+  id       Int       @id @default(autoincrement()) @db.Integer
+  name     String    @db.VarChar(100)
+  products Product[]
+  active   Boolean   @default(true)
+
+  @@map("categories")
+}
+
+model Product {
+  id           String   @id @default(uuid()) @db.Uuid
+  name         String   @db.VarChar(100)
+  description  String?  @db.Text
+  price        Decimal  @db.Decimal(10, 2)
+  image_url    String?  @db.Text
+  is_available Boolean  @default(true)
+  created_at   DateTime @default(now())
+  category     Category @relation(fields: [category_id], references: [id])
+  category_id  Int
+  updated_at   DateTime @updatedAt
+
+  items OrderItem[]
+
+  @@map("products")
+}
+
+model Session {
+  id                  String         @id @default(uuid()) @db.Uuid
+  table_number        Int            @db.Integer
+  is_active           Boolean        @default(true)
+  total_amount        Decimal?       @db.Decimal(10, 2)
+  service_fee         Decimal?       @db.Decimal(10, 2)
+  payment_type        PaymentMethod?
+  last_interaction_at DateTime       @default(now())
+  created_at          DateTime       @default(now())
+  closed_at           DateTime?
+
+  orders Order[]
+
+  @@map("sessions")
+}
+
+model Order {
+  id String @id @default(uuid()) @db.Uuid
+
+  session    Session @relation(fields: [session_id], references: [id])
+  session_id String  @db.Uuid
+
+  user    User?   @relation(fields: [user_id], references: [id])
+  user_id String? @db.Uuid
+
+  items OrderItem[]
+
+  status        OrderStatus @default(pending)
+  cancel_reason String?     @db.Text
+  created_at    DateTime    @default(now())
+  updated_at    DateTime    @updatedAt
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id String @id @default(uuid()) @db.Uuid
+
+  order    Order  @relation(fields: [order_id], references: [id])
+  order_id String @db.Uuid
+
+  product    Product @relation(fields: [product_id], references: [id])
+  product_id String  @db.Uuid
+
+  quantity Int @db.Integer
+  unit_price Decimal  @db.Decimal(10, 2)
+  notes      String?  @db.Text
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("order_items")
+}

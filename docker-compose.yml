@@ -33,4 +33,4 @@ services:
         condition: service_healthy
 
 volumes:
-  pgdata:
+  db_data:
