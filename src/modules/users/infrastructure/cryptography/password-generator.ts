@@ -4,7 +4,7 @@ import { randomBytes } from 'node:crypto';
 
 @Injectable()
 export class PasswordGenerator implements GeneratorPassword {
-  generate(size: number = 10): string {
+  generate(size: number): string {
     return randomBytes(size).toString('hex');
   }
 }

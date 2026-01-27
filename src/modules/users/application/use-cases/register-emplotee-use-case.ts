@@ -2,12 +2,14 @@ import { ConflictException, Injectable } from '@nestjs/common';
 import { UserRepository } from '../../domain/repositories/user-repository';
 import { Hasher } from '../../infrastructure/providers/hasher';
 import { RegisterEmployeeDto } from '../dtos/register-employee-dto';
+import { GeneratorPassword } from '../../infrastructure/providers/generator';
 
 @Injectable()
 export class RegisterEmployeeUseCase {
   constructor(
     private userRepository: UserRepository,
     private hasher: Hasher,
+    private passwordGenerator: GeneratorPassword,
   ) {}
 
   async execute(userData: RegisterEmployeeDto) {
@@ -15,6 +17,10 @@ export class RegisterEmployeeUseCase {
 
     if (userExists) throw new ConflictException('Email already in use');
 
-    const 
+    const temporaryPassword = this.passwordGenerator.generate(10)
+
+    const hashedPassword = await this.hasher.hash(temporaryPassword);
+
+    
   }
 }
