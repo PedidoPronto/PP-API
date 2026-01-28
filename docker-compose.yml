@@ -22,12 +22,18 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile
+      target: deps
     container_name: pedidopronto-api
     restart: always
     env_file:
       - .env
     ports:
       - "3000:3000"
+    volumes:
+      - .:/app                 
+      - /app/node_modules      
+    command: >
+      sh -c "npx prisma generate && pnpm run start:dev"
     depends_on:
       db:
         condition: service_healthy

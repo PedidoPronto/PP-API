@@ -1,8 +1,9 @@
 import { ConflictException, Injectable } from '@nestjs/common';
-import { UserRepository } from '../../domain/repositories/user-repository';
+
 import { Hasher } from '../../infrastructure/providers/hasher';
 import { RegisterEmployeeDto } from '../dtos/register-employee-dto';
-import { GeneratorPassword } from '../../infrastructure/providers/generator';
+import { GeneratorPassword } from '../../infrastructure/providers/generator.js';
+import { UserRepository } from '../../domain/repositories/user-repository.js';
 
 @Injectable()
 export class RegisterEmployeeUseCase {

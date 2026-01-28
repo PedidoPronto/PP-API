@@ -1,4 +1,4 @@
-import { User as PrismaUser } from "../../../../../../generated/prisma/";
+import { User as PrismaUser } from "@generated/prisma";
 import { User as DomainUser } from "../../../domain/entities/user";
 
 export class PrismaUserMapper {
