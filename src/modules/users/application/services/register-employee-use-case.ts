@@ -18,7 +18,7 @@ export class RegisterEmployeeUseCase {
 
     if (userExists) throw new ConflictException('Email already in use');
 
-    const temporaryPassword = this.passwordGenerator.generate(10)
+    const temporaryPassword = this.passwordGenerator.generate(10);
 
     const hashedPassword = await this.hasher.hash(temporaryPassword);
 
@@ -26,8 +26,8 @@ export class RegisterEmployeeUseCase {
       ...userData,
       password_hash: hashedPassword,
       must_change_password: true,
-    })
+    });
 
-    return 'Employee registered successfully'
+    return 'Employee registered successfully';
   }
 }
