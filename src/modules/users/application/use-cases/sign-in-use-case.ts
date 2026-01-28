@@ -8,17 +8,17 @@ export class SignInUseCase {
   constructor(private prisma: PrismaService, private bcrypt: BcryptHasher) {}
 
   async execute(userData: SignInDto): Promise<string> {
-    const result = await this.prisma.user.findUnique({
+    const userExists = await this.prisma.user.findUnique({
       where: { email: userData.email },
     });
 
-    if (!result) {
+    if (!userExists) {
       throw new NotFoundException('User not found');
     }
 
     const isPasswordValid = await this.bcrypt.compare(
         userData.password,
-        result.password_hash
+        userExists.password_hash
     )
 
     if (!isPasswordValid) {

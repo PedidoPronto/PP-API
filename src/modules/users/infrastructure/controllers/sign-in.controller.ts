@@ -1,17 +1,14 @@
 import { Body, Controller, Post, Res } from '@nestjs/common';
 import { SignInDto } from '../../application/dtos/sign-in-dto';
 import type { Response } from 'express';
-import { SignInUseCase } from '../../application/services/sign-in-use-case';
+import { SignInUseCase } from '../../application/use-cases/sign-in-use-case';
 
 @Controller('auth/sign-in')
 export class SignInController {
   constructor(private signInUseCase: SignInUseCase) {}
 
   @Post('')
-  async signIn(
-    @Body() signInData: SignInDto,
-    @Res() res: Response,
-  ) {
+  async signIn(@Body() signInData: SignInDto, @Res() res: Response) {
     try {
       const result = await this.signInUseCase.execute(signInData);
 

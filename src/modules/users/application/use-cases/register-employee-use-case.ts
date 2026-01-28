@@ -14,9 +14,9 @@ export class RegisterEmployeeUseCase {
   ) {}
 
   async execute(userData: RegisterEmployeeDto): Promise<string> {
-    const userExists = await this.userRepository.findByEmail(userData.email);
+    const employeeExists = await this.userRepository.findByEmail(userData.email);
 
-    if (userExists) throw new ConflictException('Email already in use');
+    if (employeeExists) throw new ConflictException('Email already in use');
 
     const temporaryPassword = this.passwordGenerator.generate(10);
 

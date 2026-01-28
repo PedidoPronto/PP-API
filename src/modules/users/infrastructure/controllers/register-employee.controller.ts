@@ -1,5 +1,5 @@
 import { Body, Controller, Post, Res } from '@nestjs/common';
-import { RegisterEmployeeUseCase } from '../../application/services/register-employee-use-case';
+import { RegisterEmployeeUseCase } from '../../application/use-cases/register-employee-use-case';
 import { RegisterEmployeeDto } from '../../application/dtos/register-employee-dto';
 import type { Response } from 'express';
 
