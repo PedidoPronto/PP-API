@@ -8,16 +8,18 @@ import { PrismaUsersRepository } from './infrastructure/persistence/prisma-repos
 import { BcryptHasher } from './infrastructure/cryptography/bcrypt-hasher';
 import { PasswordGenerator } from './infrastructure/cryptography/password-generator';
 import { PrismaService } from './infrastructure/database/prisma.service';
+import { SignUpUseCase } from './application/use-cases/sign-up-use-case';
+import { SignInUseCase } from './application/use-cases/sign-in-use-case';
+import { SignUpController } from './infrastructure/controllers/sign-up.controller';
+import { SignInController } from './infrastructure/controllers/sign-in.controller';
 
 @Module({
   imports: [],
-  controllers: [RegisterEmployeeController],
+  controllers: [RegisterEmployeeController, SignUpController, SignInController],
   providers: [
     RegisterEmployeeUseCase,
-    {
-      provide: UserRepository,
-      useClass: PrismaUsersRepository,
-    },
+    SignUpUseCase,
+    SignInUseCase,
     {
       provide: Hasher,
       useClass: BcryptHasher,
@@ -25,6 +27,10 @@ import { PrismaService } from './infrastructure/database/prisma.service';
     {
       provide: GeneratorPassword,
       useClass: PasswordGenerator,
+    },
+    {
+      provide: UserRepository,
+      useClass: PrismaUsersRepository,
     },
     PrismaService,
   ],

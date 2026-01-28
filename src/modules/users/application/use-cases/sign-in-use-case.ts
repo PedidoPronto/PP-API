@@ -1,11 +1,11 @@
 import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { PrismaService } from '../../infrastructure/database/prisma.service';
 import { SignInDto } from '../dtos/sign-in-dto';
-import { BcryptHasher } from '../../infrastructure/cryptography/bcrypt-hasher';
+import { Hasher } from '../../infrastructure/providers/hasher';
 
 @Injectable()
 export class SignInUseCase {
-  constructor(private prisma: PrismaService, private bcrypt: BcryptHasher) {}
+  constructor(private prisma: PrismaService, private bcrypt: Hasher) {}
 
   async execute(userData: SignInDto): Promise<string> {
     const userExists = await this.prisma.user.findUnique({

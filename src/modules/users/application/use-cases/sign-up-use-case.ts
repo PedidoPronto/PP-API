@@ -1,13 +1,13 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../../infrastructure/database/prisma.service';
 import { SignUpDto } from '../dtos/sign-up-dto';
-import { BcryptHasher } from '../../infrastructure/cryptography/bcrypt-hasher';
+import { Hasher } from '../../infrastructure/providers/hasher';
 
 @Injectable()
 export class SignUpUseCase {
   constructor(
     private prisma: PrismaService,
-    private hasher: BcryptHasher,
+    private hasher: Hasher,
   ) {}
 
   async execute(userData: SignUpDto): Promise<void> {
@@ -21,11 +21,13 @@ export class SignUpUseCase {
       throw new ConflictException('Email already in use');
     }
 
-    const hashedPassword = await this.hasher.hash(userData.password);
+    const {password, ...rest} = userData;
+
+    const hashedPassword = await this.hasher.hash(password);
 
     await this.prisma.user.create({
       data: {
-        ...userData,
+        ...rest,
         password_hash: hashedPassword,
         must_change_password: false,
         role: 'ADMIN',
