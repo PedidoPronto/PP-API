@@ -19,13 +19,4 @@ export class RegisterEmployeeDto {
   @IsEnum(['WAITER', 'CHEF'], { message: 'Role must be either WAITER or CHEF' })
   @IsNotEmpty({ message: 'Role should not be empty' })
   role: 'WAITER' | 'CHEF';
-
-  @IsString()
-  @MinLength(8, { message: 'Password must be at least 8 characters long' })
-  @IsNotEmpty({ message: 'Password should not be empty' })
-  @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
-    message:
-      'Password is too weak. Must include uppercase, lowercase, and a number or symbol',
-  })
-  password: string;
 }

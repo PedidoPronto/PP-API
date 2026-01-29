@@ -28,6 +28,8 @@ export class RegisterEmployeeUseCase {
       must_change_password: true,
     });
 
-    return 'Employee registered successfully';
+    console.log(temporaryPassword)
+
+    return temporaryPassword;
   }
 }
