@@ -1,9 +1,15 @@
-import { Module } from "@nestjs/common";
-import { UsersModule } from "src/modules/users/users.module";
+import { Module } from '@nestjs/common';
+import { UsersModule } from 'src/modules/users/users.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-    imports: [UsersModule],
-    controllers: [],
-    providers: [],
+  imports: [
+    UsersModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+  ],
+  controllers: [],
+  providers: [],
 })
 export class SharedModule {}

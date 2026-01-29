@@ -12,9 +12,12 @@ import { SignUpUseCase } from './application/use-cases/sign-up-use-case';
 import { SignInUseCase } from './application/use-cases/sign-in-use-case';
 import { SignUpController } from './infrastructure/controllers/sign-up.controller';
 import { SignInController } from './infrastructure/controllers/sign-in.controller';
+import { AuthModule } from './infrastructure/auth/auth.module';
 
 @Module({
-  imports: [],
+  imports: [
+    AuthModule,
+  ],
   controllers: [RegisterEmployeeController, SignUpController, SignInController],
   providers: [
     RegisterEmployeeUseCase,
