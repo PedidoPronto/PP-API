@@ -22,7 +22,7 @@ export class RegisterEmployeeUseCase {
 
     const hashedPassword = await this.hasher.hash(temporaryPassword);
 
-    const newUser = this.userRepository.create({
+    const newUser = await this.userRepository.create({
       ...userData,
       password_hash: hashedPassword,
       must_change_password: true,
