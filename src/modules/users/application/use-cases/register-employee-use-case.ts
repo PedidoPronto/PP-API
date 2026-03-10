@@ -1,8 +1,8 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 
-import { Hasher } from '../../infrastructure/providers/hasher';
+import { Hasher } from '../../domain/ports/hasher';
 import { RegisterEmployeeDto } from '../dtos/register-employee-dto';
-import { GeneratorPassword } from '../../infrastructure/providers/generator.js';
+import { GeneratorPassword } from '../../domain/ports/generator.js';
 import { UserRepository } from '../../domain/repositories/user-repository.js';
 
 @Injectable()

@@ -1,6 +1,6 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { SignUpDto } from '../dtos/sign-up-dto';
-import { Hasher } from '../../infrastructure/providers/hasher';
+import { Hasher } from '../../domain/ports/hasher';
 import { UserRepository } from '../../domain/repositories/user-repository';
 
 @Injectable()

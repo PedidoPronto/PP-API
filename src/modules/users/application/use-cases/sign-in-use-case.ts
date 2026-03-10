@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from '../../infrastructure/database/prisma.service';
 import { SignInDto } from '../dtos/sign-in-dto';
-import { Hasher } from '../../infrastructure/providers/hasher';
+import { Hasher } from '../../domain/ports/hasher';
 import { UserPayloadDto } from '../../infrastructure/auth/dtos/payload';
 import { UserRepository } from '../../domain/repositories/user-repository';
 

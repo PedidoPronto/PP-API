@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { GeneratorPassword } from '../providers/generator';
+import { GeneratorPassword } from '../../domain/ports/generator';
 import { randomBytes } from 'node:crypto';
 
 @Injectable()
