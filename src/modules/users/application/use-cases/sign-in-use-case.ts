@@ -7,11 +7,12 @@ import { PrismaService } from '../../infrastructure/database/prisma.service';
 import { SignInDto } from '../dtos/sign-in-dto';
 import { Hasher } from '../../infrastructure/providers/hasher';
 import { UserPayloadDto } from '../../infrastructure/auth/dtos/payload';
+import { UserRepository } from '../../domain/repositories/user-repository';
 
 @Injectable()
 export class SignInUseCase {
   constructor(
-    private prisma: PrismaService,
+    private userRepository: UserRepository,
     private bcrypt: Hasher,
   ) {}
 
@@ -23,9 +24,7 @@ export class SignInUseCase {
     role: string;
     must_change_password: boolean;
   }> {
-    const user = await this.prisma.user.findUnique({
-      where: { email: userData.email },
-    });
+    const user = await this.userRepository.findByEmail(userData.email);
 
     if (!user) {
       throw new NotFoundException('User not found');

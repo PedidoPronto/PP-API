@@ -11,5 +11,8 @@ import { ConfigModule } from '@nestjs/config';
   ],
   controllers: [],
   providers: [],
+  exports: [
+    UsersModule
+  ],
 })
 export class SharedModule {}
